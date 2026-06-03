@@ -1,0 +1,85 @@
+@if (cameraError()) {
+  <div class="banner error">{{ cameraError() }}</div>
+}
+
+@if (summary(); as s) {
+  <!-- Session finished -->
+  <section class="summary">
+    <h1>Session complete 💪</h1>
+    <p class="exercise">{{ exercise }}</p>
+    <div class="big-reps">{{ s.reps }}<span>reps</span></div>
+
+    <div class="angles">
+      <div><label>Avg knee</label><b>{{ s.avg_knee_angle }}°</b></div>
+      <div><label>Avg hip</label><b>{{ s.avg_hip_angle }}°</b></div>
+      <div><label>Avg spine</label><b>{{ s.avg_spine_angle }}°</b></div>
+    </div>
+
+    @if (formErrorList().length) {
+      <div class="errors">
+        <h3>Form issues detected</h3>
+        <ul>
+          @for (err of formErrorList(); track err) {
+            <li>{{ err }} ({{ s.form_errors[err] }}×)</li>
+          }
+        </ul>
+      </div>
+    } @else {
+      <p class="clean">No form errors flagged — clean work!</p>
+    }
+
+    <app-ai-feedback [sessionId]="savedId()" />
+
+    <button class="primary" (click)="goHome()">Back to home</button>
+  </section>
+} @else {
+  <!-- Live workout -->
+  <div class="workout">
+    <div class="stage">
+      <div class="video-wrap">
+        <video #video playsinline muted></video>
+        <canvas #overlay class="overlay"></canvas>
+
+        @if (status() !== 'analyzing') {
+          <div class="status-pill">
+            @if (status() === 'warming_up') { Get fully in frame… }
+            @else if (status() === 'no_pose') { No person detected }
+            @else { Starting camera… }
+          </div>
+        }
+      </div>
+    </div>
+
+    <aside class="panel">
+      <h2 class="ex-name">{{ exercise }}</h2>
+
+      <div class="rep-box">
+        <span class="num">{{ reps() }}</span>
+        <span class="lbl">reps</span>
+      </div>
+
+      <div class="stat">
+        <label>Phase</label>
+        <span class="phase {{ phase() }}">{{ phase() }}</span>
+      </div>
+
+      <div class="stat">
+        <label>Form</label>
+        <span class="form" [class.bad]="errorFlagged()">
+          {{ formLabel() || '—' }}
+        </span>
+      </div>
+
+      <div class="stat">
+        <label>Confidence</label>
+        <span>{{ confidence() }}%</span>
+      </div>
+
+      @if (feedback()) {
+        <div class="feedback" [class.bad]="errorFlagged()">{{ feedback() }}</div>
+      }
+
+      <button class="primary stop" (click)="stop()">Finish session</button>
+    </aside>
+  </div>
+}

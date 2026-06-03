@@ -1,0 +1,25 @@
+# Fit Genius backend — pinned to the versions verified on Python 3.13 / Windows.
+# Install:  pip install -r requirements.txt
+
+# Web API
+flask==3.1.2
+flask-cors==6.0.1
+python-dotenv==1.2.2
+
+# ML / inference
+tensorflow==2.21.0
+mediapipe==0.10.35          # 0.10.35 ships only the Tasks API (no mp.solutions)
+opencv-python==4.13.0.92
+scikit-learn==1.5.2
+pandas==2.2.3
+numpy==2.1.3
+
+# Training / notebooks (exploration + plots)
+matplotlib==3.10.8
+seaborn==0.13.2
+
+# Persistence
+sqlalchemy==2.0.50
+
+# Added in later build steps:
+#   groq         — step 8 (AI coaching agent)

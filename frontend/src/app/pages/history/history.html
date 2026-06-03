@@ -1,0 +1,85 @@
+<section class="history">
+  <h1>Your sessions</h1>
+
+  @if (loading()) {
+    <p class="muted">Loading…</p>
+  } @else if (loadError()) {
+    <p class="error">{{ loadError() }}</p>
+  } @else if (!records().length) {
+    <p class="muted">No sessions yet — do a workout or upload a video to get started.</p>
+  } @else {
+    <table class="sessions">
+      <thead>
+        <tr>
+          <th>Date</th><th>Exercise</th><th>Reps</th><th>Duration</th><th>Top issues</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (rec of records(); track rec.session_id) {
+          <tr>
+            <td>{{ rec.date | date: 'medium' }}</td>
+            <td class="ex">{{ rec.exercise }}</td>
+            <td>{{ rec.reps }}</td>
+            <td>{{ fmtDuration(rec.duration_sec) }}</td>
+            <td>
+              @if (rec.top_errors.length) {
+                @for (e of rec.top_errors; track e) {
+                  <span class="chip">{{ e }}</span>
+                }
+              } @else {
+                <span class="muted">—</span>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>
+
+<section class="plan-section">
+  <h2>AI weekly plan</h2>
+  <p class="muted">Generate a personalized plan from your recent sessions.</p>
+
+  <div class="plan-input">
+    <input #goalsInput type="text"
+           placeholder="Optional: your goals (e.g. fix forward lean, build leg strength)" />
+    <button class="primary" [disabled]="planLoading()" (click)="generatePlan(goalsInput.value)">
+      @if (planLoading()) { Generating… } @else { Generate weekly plan }
+    </button>
+  </div>
+
+  @if (planError()) {
+    <p class="error">{{ planError() }}</p>
+  }
+
+  @if (plan(); as p) {
+    <div class="plan-card">
+      @if (p.focus_areas?.length) {
+        <div class="focus">
+          <h4>Focus areas</h4>
+          @for (f of p.focus_areas; track f) {
+            <span class="chip focus-chip">{{ f }}</span>
+          }
+        </div>
+      }
+
+      <div class="days">
+        @for (d of (p.weekly_plan ?? []); track d.day) {
+          <div class="day">
+            <span class="day-name">{{ d.day }}</span>
+            <span class="day-focus">{{ d.focus }}</span>
+            @if (d.work) { <span class="day-work">{{ d.work }}</span> }
+          </div>
+        }
+      </div>
+
+      @if (p.progression_notes) {
+        <div class="progression">
+          <h4>Progression</h4>
+          <p>{{ p.progression_notes }}</p>
+        </div>
+      }
+    </div>
+  }
+</section>

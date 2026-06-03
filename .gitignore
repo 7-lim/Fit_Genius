@@ -1,0 +1,33 @@
+# ── Secrets ───────────────────────────────────────────────
+.env
+backend/.env
+
+# ── Python ────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# ── Database / runtime ────────────────────────────────────
+*.db
+backend/fitgenius.db
+backend/tmp_uploads/
+
+# ── Node / Angular ────────────────────────────────────────
+node_modules/
+frontend/dist/
+frontend/.angular/
+.angular/
+
+# ── Build / cache ─────────────────────────────────────────
+*.log
+.DS_Store
+Thumbs.db
+
+# ── Optional: uncomment to keep large binaries out of git ──
+# (the LSTM models are small and committed so the app runs on clone;
+#  the MediaPipe bundle is re-downloadable — see README)
+# backend/models/pose_landmarker_full.task
+# backend/training/data/Videos/

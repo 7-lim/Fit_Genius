@@ -1,0 +1,41 @@
+.ai-btn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover { filter: brightness(1.05); }
+  &:disabled { opacity: 0.6; cursor: default; }
+}
+
+.ai-error {
+  margin-top: 0.5rem;
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+
+.ai-card {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid #e0e7ff;
+  border-radius: 12px;
+  background: #f5f3ff;
+  text-align: left;
+
+  h3 { margin: 0 0 0.5rem; }
+  h4 {
+    margin: 0.75rem 0 0.25rem;
+    font-size: 0.9rem;
+    color: #4338ca;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .summary { margin: 0; }
+  ul { margin: 0; padding-left: 1.2rem; }
+  li { margin: 0.25rem 0; }
+}

@@ -1,0 +1,64 @@
+<section class="uploader">
+  <button class="back" (click)="goHome()">← Home</button>
+  <h1>Analyze a <span class="ex">{{ exercise }}</span> video</h1>
+
+  @if (result(); as r) {
+    <!-- Results -->
+    @if (r.warning) {
+      <p class="warn">{{ r.warning }}</p>
+    }
+
+    <div class="big-reps">{{ r.reps }}<span>reps</span></div>
+
+    <div class="angles">
+      <div><label>Avg knee</label><b>{{ r.avg_knee_angle }}°</b></div>
+      <div><label>Avg hip</label><b>{{ r.avg_hip_angle }}°</b></div>
+      <div><label>Avg spine</label><b>{{ r.avg_spine_angle }}°</b></div>
+    </div>
+
+    @if (formErrorList().length) {
+      <div class="errors">
+        <h3>Form issues detected</h3>
+        <ul>
+          @for (err of formErrorList(); track err) {
+            <li>{{ err }} ({{ r.form_errors[err] }}×)</li>
+          }
+        </ul>
+      </div>
+    } @else {
+      <p class="clean">No form errors flagged — clean work!</p>
+    }
+
+    <p class="meta">
+      Detected a pose in {{ r.detected_frames }} / {{ r.sampled_frames }} sampled frames.
+    </p>
+
+    <app-ai-feedback [sessionId]="savedId()" />
+
+    <div class="row">
+      <button class="secondary" (click)="reset()">Analyze another</button>
+      <button class="primary" (click)="goHome()">Done</button>
+    </div>
+  } @else {
+    <!-- Upload form -->
+    <p class="hint">Upload a clip with your full body visible — we'll count reps and check your form.</p>
+
+    <label class="dropzone">
+      <input type="file" accept="video/*" (change)="onFile($event)" hidden />
+      <span class="icon">⬆️</span>
+      <span>{{ fileName() || 'Choose a video file' }}</span>
+    </label>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <button class="primary" [disabled]="loading()" (click)="analyze()">
+      @if (loading()) { Analyzing… this can take a moment } @else { Analyze video }
+    </button>
+
+    @if (loading()) {
+      <div class="spinner" aria-label="loading"></div>
+    }
+  }
+</section>

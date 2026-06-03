@@ -1,0 +1,26 @@
+<section class="hero">
+  <h1>Pick an exercise</h1>
+  <p>Fit Genius analyses your form in real time — or from a video you upload.</p>
+</section>
+
+<div class="cards">
+  <div class="card">
+    <span class="emoji">🏋️</span>
+    <span class="name">Squat</span>
+    <span class="hint">Depth &amp; forward-lean detection</span>
+    <div class="actions">
+      <button class="primary" (click)="live('squat')">📷 Live camera</button>
+      <button class="secondary" (click)="upload('squat')">⬆️ Upload video</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="emoji">🔩</span>
+    <span class="name">Deadlift</span>
+    <span class="hint">Back-rounding &amp; lockout detection</span>
+    <div class="actions">
+      <button class="primary" (click)="live('deadlift')">📷 Live camera</button>
+      <button class="secondary" (click)="upload('deadlift')">⬆️ Upload video</button>
+    </div>
+  </div>
+</div>

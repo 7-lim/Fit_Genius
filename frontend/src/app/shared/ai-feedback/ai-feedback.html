@@ -1,0 +1,27 @@
+@if (feedback(); as fb) {
+  <div class="ai-card">
+    <h3>🤖 AI Coach</h3>
+    <p class="summary">{{ fb.summary }}</p>
+
+    @if (fb.corrections.length) {
+      <h4>Corrections</h4>
+      <ul>
+        @for (c of fb.corrections; track c) { <li>{{ c }}</li> }
+      </ul>
+    }
+
+    @if (fb.tips.length) {
+      <h4>Try this drill</h4>
+      <ul>
+        @for (t of fb.tips; track t) { <li>{{ t }}</li> }
+      </ul>
+    }
+  </div>
+} @else {
+  <button class="ai-btn" [disabled]="loading()" (click)="load()">
+    @if (loading()) { Getting AI feedback… } @else { 🤖 Get AI coaching feedback }
+  </button>
+  @if (error()) {
+    <p class="ai-error">{{ error() }}</p>
+  }
+}
